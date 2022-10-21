@@ -10,6 +10,10 @@ const server = http.createServer((request,response)=>{
         service.getToDoList(request,response);
     }else if(request.method=="POST"){
         service.createToDo(request,response);
+    }else if(request.method=="PUT"){
+        service.updateToDo(request,response);
+    }else if(request.method=="DELETE"){
+        service.deleteToDo(request,response);
     }
 });
 

@@ -20,11 +20,33 @@ export class ToDoListService{
         response.end();
     }
 
-    async createToDo(request,response){
-        await request.addListener("data", (data)=>{
+    createToDo(request,response){
+        request.addListener("data", (data)=>{
             const body = JSON.parse(data.toString());
             this.toDoList.push(body.todo);
+
+            this.getToDoList(request,response);
         })
-        this.getToDoList(request,response);
+    }
+
+    updateToDo(request,response){
+        request.addListener("data", (data)=>{
+            const body = JSON.parse(data.toString());
+            if(this.toDoList[body.id]){
+                this.toDoList[body.id] = body.todo;
+            }
+
+            this.getToDoList(request,response);
+        })        
+    }
+
+    deleteToDo(request,response){
+        request.addListener("data", (data)=>{
+            const body = JSON.parse(data.toString());
+            if(this.toDoList[body.id]){
+                this.toDoList.splice(body.id,1);
+            }
+            this.getToDoList(request,response);
+        })
     }
 }
